@@ -1,0 +1,151 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Business Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f9f9f9;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    fieldset {
+      margin-top: 15px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    legend {
+      font-weight: bold;
+    }
+    .submit-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+    #results {
+      margin-top: 25px;
+      background: #e9ffe9;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="myForm" action="https://api.web3forms.com/submit" method="POST">
+    <!-- Web3Forms Access Key -->
+    <input type="hidden" name="access_key" value="3d266154-2563-44c9-980a-118e322c00cf">
+
+    <!-- Optional Redirect (after success) -->
+    <!-- <input type="hidden" name="redirect" value="https://yourwebsite.com/thankyou.html"> -->
+
+    <header>
+      <h2>Test Business Name</h2>
+      <div>Operates only in certain locations. Please check the drop-down menu for location:</div>
+    </header>
+
+    <label for="fullName">Full Name:</label>
+    <input id="fullName" name="Full Name" type="text" required>
+
+    <label for="email">Email:</label>
+    <input id="email" name="Email" type="email" required>
+
+    <label for="phone">Phone Number:</label>
+    <input id="phone" name="Phone" type="tel" required>
+
+    <label for="location">Location:</label>
+    <select id="location" name="Location" required>
+      <option value="">--Select--</option>
+      <option value="Briarwood">Briarwood</option>
+      <option value="Lakeridge">Lakeridge</option>
+      <option value="Rosewood">Rosewood</option>
+    </select>
+
+    <label for="address">Address:</label>
+    <textarea id="address" name="Address" rows="4" required></textarea>
+
+    <fieldset>
+      <legend>House Info</legend>
+      <label><input type="radio" name="House Type" value="Lane House / Town House" checked> Lane House / Town House</label>
+      <label><input type="radio" name="House Type" value="Attached Garage"> Attached Garage</label>
+      <label><input type="radio" name="House Type" value="Acreage"> Acreage</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Service Type</legend>
+      <label><input type="checkbox" name="Service Type" value="Basic"> Basic</label>
+      <label><input type="checkbox" name="Service Type" value="Premium"> Premium</label>
+      <label><input type="checkbox" name="Service Type" value="V.I.P"> V.I.P</label>
+    </fieldset>
+
+    <label for="addon">Add On:</label>
+    <select id="addon" name="Add On">
+      <option value="">None</option>
+      <option value="Sand">Sand</option>
+      <option value="Salt">Salt</option>
+    </select>
+
+    <textarea name="Additional Message" placeholder="Extra details (optional)" rows="3"></textarea>
+
+    <button type="submit" class="submit-btn">Submit</button>
+  </form>
+
+  <div id="results"></div>
+
+  <script>
+    // Handle form submission and show confirmation
+    const form = document.getElementById('myForm');
+    const resultsDiv = document.getElementById('results');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        resultsDiv.style.display = 'block';
+        resultsDiv.innerHTML = `<h3>✅ Your form has been sent successfully!</h3><p>Thank you — we’ll get back to you soon.</p>`;
+        form.reset();
+      } else {
+        resultsDiv.style.display = 'block';
+        resultsDiv.innerHTML = `<h3>❌ There was an error sending your form. Please try again.</h3>`;
+      }
+    });
+  </script>
+
+</body>
+</html>
